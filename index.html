@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de IMC</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .fundo {
+            background-image: linear-gradient(#43C6AC, #f8FFAE);
+            height: 100vh;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        .formulario {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 15px;
+            padding: 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 30px;
+            color: black;
+           
+
+        }
+
+        .botao {
+            width: 100px;
+            height: 50px;
+            right: 50%;
+            text-align: center;
+            margin: 0 auto;
+            font-size: 15px;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
+
+        .botao:hover {
+            background-color: #43C6AC;
+        }
+
+        #resultado{
+            
+            width: 80vh;
+            height: 20vh;
+            text-align: left;
+        }
+       
+    </style>
+</head>
+
+<body>
+    <div class="fundo">
+        <h1>Calculadora de IMC </h1>
+    </div>
+
+    <div class="formulario">
+
+        <fieldset>
+
+            <table>
+                <tr>
+                    <td >Sexo: </td>
+                    <td colspan="2"><input type="radio" name="sexo" value="Masculino"> Masculino </td>
+                    <td colspan="2"><input type="radio" name="sexo" value="Feminino"> Feminino</td>
+                </tr>
+
+                <tr>
+                    <td>Idade: </td>
+                    <td><input type="text" id="idade"></td>
+                </tr>
+                <tr>
+                    <td>Altura: </td>
+                    <td><input type="text" id="altura"></td>
+                </tr>
+                <tr>
+                    <td>Peso: </td>
+                    <td><input type="text" id="peso"></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td colspan="2"><button class="botao" onclick="verificar_idade()" class="botao_calcular" >Calcular</button></td>
+                    <td colspan="2"><button class="botao" onclick="limpar()">Limpar</button></td>
+                </tr>
+                
+            </table>
+            <br>
+           
+            <textarea id="resultado"></textarea>
+
+        </fieldset>
+
+
+    </div>
+
+    <script>
+
+        var get_idade = document.getElementById("idade");
+        var get_altura = document.getElementById("altura");
+        var get_peso = document.getElementById("peso");
+    
+
+        
+    
+        function verificar_idade(){
+
+            var text_idade = get_idade.value;
+            var text = document.getElementById('resultado');
+            var text_sexo = document.querySelector('input[name="sexo"]:checked').value;
+            
+           
+            if(text_idade <=17){
+                text.value += "Calculadora é apenas para Adultos, Verifique a Idade...";
+                
+            }
+            else{
+
+                calcular();
+            }
+            
+
+        }
+
+        function limpar(){
+            var text = document.getElementById('resultado');
+            get_idade.value="";
+            get_altura.value=" ";
+            get_peso.value="";
+            text.value="";
+        }
+
+        function calcular() {
+    
+            var text_idade = get_idade.value;
+            var text_altura = get_altura.value;
+            var text_peso = get_peso.value;
+            var text_sexo = document.querySelector('input[name="sexo"]:checked').value;
+            var text = document.getElementById('resultado');
+
+            var convert_peso = text_peso.replace(",",".");
+            var convert_altura = text_altura.replace(",",".");
+
+            var cm_metros = convert_altura / 100;
+
+            var media = convert_peso / (cm_metros * cm_metros);
+
+
+    
+
+            if(media <= 18.5){
+                
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura + "\n";
+                text.value += "Peso (KG):  " + convert_peso + "\n";
+                text.value += "IMC é Igual a Magreza: "+media.toFixed(2);
+                
+                
+            }
+            else if( media == 18.5 || media <= 24.9 ) {
+                    
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura +"\n" ;
+                text.value += "Peso (KG):  " + convert_peso +"\n" ;
+                text.value += "IMC é Igual a Peso Normal: "+media.toFixed(2);
+
+                
+
+                
+                    
+            }
+            else if(media == 25.0 || media <=29.9){
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura +"\n" ;
+                text.value += "Peso (KG):  " + convert_peso +"\n" ;
+                text.value += "IMC é Igual a SobrePeso: "+media.toFixed(2);
+                limpar();
+
+            }
+            else if(media == 30 || media <= 34.9){
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura +"\n" ;
+                text.value += "Peso (KG):  " + convert_peso +"\n" ;
+                text.value += "IMC é Igual a Obesidade Grau I: "+media.toFixed(2);
+                limpar();
+            }
+            else if(media == 35.0 || media <= 40.0){
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura +"\n" ;
+                text.value += "Peso (KG):  " + convert_peso +"\n" ;
+                text.value += "IMC é Igual a Obesidade Grau II: "+media.toFixed(2);
+                limpar();
+            }
+            else if(media >= 40.0){
+                text.value += "Sexo: " + text_sexo +"\n";
+                text.value += "Idade: " + text_idade +"\n" ;
+                text.value += "Altura (M): " + convert_altura +"\n" ;
+                text.value += "Peso (KG):  " + convert_peso +"\n" ;
+                text.value += "IMC é Igual a Obesidade Grau III: "+media.toFixed(2);
+                limpar();
+            }
+            else{
+                document.getElementById('resultado').innerHTML= "Sem dados para Calcular..." 
+                    
+            }
+        
+        
+
+        
+
+           
+                
+
+            
+
+           
+            
+
+        }
+
+
+
+    </script>
+
+
+</body>
+
+</html>
